@@ -1,4 +1,6 @@
-<img align="center" src="./HoppLogo.png" alt="Hopp" width="300" />
+<p align="center">
+  <img src="./HoppLogo.png" alt="Hopp" width="300" />
+</p>
 
 ---
 
