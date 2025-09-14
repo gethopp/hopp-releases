@@ -1,20 +1,20 @@
-name: 'Build Hopp Release'
+name: "Build Hopp Release"
 
 on:
   workflow_dispatch:
     inputs:
       source_repo_url:
-        description: 'Source repository URL (e.g., https://github.com/gethopp/hopp)'
+        description: "Source repository URL (e.g., https://github.com/gethopp/hopp)"
         required: true
         type: string
       version:
-        description: 'Release version (e.g., v0.0.33)'
+        description: "Release version (e.g., v0.0.33)"
         required: true
         type: string
       release_name:
-        description: 'Release name'
+        description: "Release name"
         required: false
-        default: 'Hopp Release'
+        default: "Hopp Release"
         type: string
 
 jobs:
@@ -27,15 +27,15 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - platform: 'macos-latest'
-            args: '--target x86_64-apple-darwin --config src-tauri/tauri.conf.rel.json'
-            target: 'x86_64-apple-darwin'
-          - platform: 'macos-latest'
-            args: '--target aarch64-apple-darwin --config src-tauri/tauri.conf.rel.json'
-            target: 'aarch64-apple-darwin'
-          - platform: 'windows-latest'
-            args: '--target x86_64-pc-windows-msvc --config src-tauri/tauri.conf.rel.json'
-            target: 'x86_64-pc-windows-msvc'
+          - platform: "macos-latest"
+            args: "--target x86_64-apple-darwin --config src-tauri/tauri.conf.rel.json"
+            target: "x86_64-apple-darwin"
+          - platform: "macos-latest"
+            args: "--target aarch64-apple-darwin --config src-tauri/tauri.conf.rel.json"
+            target: "aarch64-apple-darwin"
+          - platform: "windows-latest"
+            args: "--target x86_64-pc-windows-msvc --config src-tauri/tauri.conf.rel.json"
+            target: "x86_64-pc-windows-msvc"
 
     runs-on: ${{ matrix.platform }}
     steps:
@@ -68,8 +68,8 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 'lts/*'
-          cache: 'yarn'
+          node-version: "lts/*"
+          cache: "yarn"
           cache-dependency-path: source-repo/yarn.lock
 
       - name: Enable Corepack
@@ -193,6 +193,7 @@ jobs:
           VITE_BOTTOM_ARROW: ${{ steps.vite_vars.outputs.vite_bottom_arrow }}
           VITE_OS: ${{ steps.vite_vars.outputs.vite_os }}
           SENTRY_DSN_RUST: ${{ secrets.SENTRY_DSN_RUST }}
+          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
           VITE_SENTRY_DSN_JS: ${{ secrets.VITE_SENTRY_DSN_JS }}
           VITE_API_BASE_URL: ${{ secrets.VITE_API_BASE_URL }}
           VITE_POSTHOG_API_KEY: ${{ secrets.VITE_POSTHOG_API_KEY }}
@@ -201,7 +202,7 @@ jobs:
           projectPath: source-repo/tauri
           args: ${{ matrix.args }}
           tagName: ${{ github.event.inputs.version }}
-          releaseName: '${{ github.event.inputs.release_name }} ${{ github.event.inputs.version }}'
+          releaseName: "${{ github.event.inputs.release_name }} ${{ github.event.inputs.version }}"
           releaseBody: |
             ## Added
             ## Fixed
